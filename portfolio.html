@@ -1,0 +1,442 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Portfólio acadêmico de estudante de Engenharia de Computação do IFCE.">
+  <title>Júlio Pereira Brasil | Engenharia de Computação</title>
+  <style>
+    :root {
+      --bg: #0b1120;
+      --surface: #111b2e;
+      --surface2: #17243a;
+      --text: #f1f5f9;
+      --muted: #a6b4c9;
+      --accent: #7db7ff;
+      --border: #26364f;
+      --max: 1080px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 85px; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Inter, system-ui, -apple-system, sans-serif;
+      line-height: 1.7;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    a:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 4px;
+    }
+
+    .container {
+      width: min(var(--max), 90%);
+      margin: auto;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(11, 17, 32, .94);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    nav {
+      min-height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand { font-weight: 750; letter-spacing: -.4px; }
+    .brand span { color: var(--accent); }
+
+    .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 22px;
+      font-size: .9rem;
+      color: var(--muted);
+    }
+
+    .nav-links a:hover { color: var(--accent); }
+
+    .hero { padding: 110px 0 90px; }
+
+    .eyebrow {
+      color: var(--accent);
+      font-size: .82rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-weight: 700;
+    }
+
+    h1 {
+      font-size: clamp(2.6rem, 7vw, 5rem);
+      line-height: 1.08;
+      letter-spacing: -2.5px;
+      max-width: 780px;
+      margin: 18px 0;
+    }
+
+    h1 span { color: var(--accent); }
+
+    .intro {
+      color: var(--muted);
+      max-width: 650px;
+      font-size: 1.1rem;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 30px;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 11px 18px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      font-weight: 650;
+      font-size: .93rem;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #0b1120;
+      border-color: var(--accent);
+    }
+
+    .btn:hover { transform: translateY(-2px); }
+
+    section { padding: 72px 0; }
+
+    .section-heading { margin-bottom: 28px; }
+
+    .section-heading h2 {
+      font-size: clamp(1.8rem, 4vw, 2.5rem);
+      letter-spacing: -1px;
+      margin: 5px 0;
+    }
+
+    .section-heading p, .muted { color: var(--muted); }
+
+    .panel, .project {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 25px;
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr;
+      gap: 20px;
+    }
+
+    .fact {
+      padding: 15px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .fact:last-child { border-bottom: 0; }
+    .fact strong { display: block; }
+    .fact span { color: var(--muted); font-size: .94rem; }
+
+    .projects {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 20px;
+    }
+
+    .project-number {
+      color: var(--accent);
+      font-size: .82rem;
+      letter-spacing: 1px;
+    }
+
+    .project h3 { margin-bottom: 8px; }
+    .project p { color: var(--muted); }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 18px 0;
+    }
+
+    .tag {
+      border: 1px solid var(--border);
+      background: var(--surface2);
+      border-radius: 20px;
+      padding: 4px 10px;
+      font-size: .8rem;
+      color: #d7e7fa;
+    }
+
+    .project-link {
+      color: var(--accent);
+      font-weight: 650;
+      font-size: .9rem;
+    }
+
+    .skills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .skill {
+      border: 1px solid var(--border);
+      background: var(--surface);
+      padding: 10px 15px;
+      border-radius: 8px;
+    }
+
+    .contact {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 32px;
+    }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 25px 0;
+      color: var(--muted);
+      font-size: .85rem;
+    }
+
+    @media (max-width: 680px) {
+      nav { align-items: flex-start; flex-direction: column; padding: 15px 0; }
+      .nav-links { gap: 12px; font-size: .82rem; }
+      .hero { padding: 75px 0 55px; }
+      section { padding: 50px 0; }
+      .about-grid, .projects { grid-template-columns: 1fr; }
+      h1 { letter-spacing: -1.5px; }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <nav class="container" aria-label="Navegação principal">
+      <a class="brand" href="#inicio">Júlio Pereira Brasil<span>.</span></a>
+      <div class="nav-links">
+        <a href="#sobre">Sobre</a>
+        <a href="#projetos">Projetos</a>
+        <a href="#conhecimentos">Conhecimentos</a>
+        <a href="#formacao">Formação</a>
+        <a href="#contato">Contato</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero container" id="inicio">
+      <div class="eyebrow">Portfólio acadêmico · IFCE</div>
+      <h1>Olá, eu sou <span>Júlio Pereira Brasil</span>.</h1>
+      <p class="intro">
+        Estudante do 6º semestre de Engenharia de Computação no
+        Instituto Federal do Ceará. Estou construindo minha trajetória
+        na tecnologia por meio da graduação, de projetos e do aprendizado contínuo.
+      </p>
+      <div class="actions">
+        <a class="btn btn-primary" href="#projetos">Conheça meus projetos ↘</a>
+        <a class="btn" href="#contato">Entre em contato</a>
+      </div>
+    </section>
+
+    <section id="sobre">
+      <div class="container">
+        <div class="section-heading">
+          <div class="eyebrow">01 / Sobre mim</div>
+          <h2>Aprendendo, construindo e evoluindo.</h2>
+        </div>
+        <div class="about-grid">
+          <article class="panel">
+            <p>
+              Sou estudante de Engenharia de Computação no IFCE,
+              atualmente no 6º semestre. Durante a graduação, venho
+              desenvolvendo minha base em computação e explorando
+              maneiras de aplicar os conhecimentos acadêmicos na prática.
+            </p>
+            <p>
+              Busco uma oportunidade de estágio em tecnologia na qual
+              possa contribuir, aprender com profissionais experientes
+              e desenvolver minhas habilidades técnicas.
+            </p>
+          </article>
+          <aside class="panel">
+            <div class="fact">
+              <strong>Formação</strong>
+              <span>Engenharia de Computação</span>
+            </div>
+            <div class="fact">
+              <strong>Instituição</strong>
+              <span>Instituto Federal do Ceará — IFCE</span>
+            </div>
+            <div class="fact">
+              <strong>Momento profissional</strong>
+              <span>Em formação · Buscando estágio</span>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section id="projetos">
+      <div class="container">
+        <div class="section-heading">
+          <div class="eyebrow">02 / Projetos</div>
+          <h2>Trabalhos e experimentos.</h2>
+          <p>
+            Projetos acadêmicos e pessoais que representam minha
+            aprendizagem e minha evolução na computação.
+          </p>
+        </div>
+
+        <div class="projects">
+          <article class="project">
+            <div class="project-number">PROJETO 01</div>
+            <h3>Sistema de Gestão Energética para Casas de Veraneio</h3>
+            <p>
+              Se trata de um produto embarcado que é implantado na caixa geral de uma casa para mostrar medições elétricas,
+              criar estadias como em um airbnb e mostrar as informações de forma direta e prática para o dono.
+            </p>
+            <div class="tags">
+              <span class="tag">ESP32</span>
+              <span class="tag">HTML</span>
+              <span class="tag">C/Python</span>
+              <span class="tag">MQTT</span>
+              <span class="tag">Embarcado</span>
+              <span class="tag">Dashboard</span>
+              <span class="tag">Site</span>
+            </div>
+            <a class="project-link" href="#contato">
+              [Adicionar link do projeto, se disponível] →
+            </a>
+          </article>
+
+          <article class="project">
+            <div class="project-number">PROJETO 02</div>
+            <h3>Detecção de Violação de Malas</h3>
+            <p>
+              Cooperei com o TCC de um colega para a criação de um produto embarcado que ao colocar em uma mala/mochila, se manteria ativo
+              vigiando se ocorrerá uma violação e, caso sim, enviará um aviso que a mala foi violada e o horário.
+            </p>
+            <div class="tags">
+              <span class="tag">ESP32</span>
+              <span class="tag">C/Python</span>
+              <span class="tag">Bluetooth</span>
+              <span class="tag">Embarcado</span>
+              <span class="tag">IoT</span>
+            </div>
+            <a class="project-link" href="#contato">
+              [Adicionar link do projeto, se disponível] →
+            </a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="conhecimentos">
+      <div class="container">
+        <div class="section-heading">
+          <div class="eyebrow">03 / Conhecimentos</div>
+          <h2>Minha base técnica.</h2>
+          <p>
+            Conhecimentos desenvolvidos na graduação e em atividades
+            práticas. A lista será atualizada conforme novos projetos
+            forem concluídos.
+          </p>
+        </div>
+        <div class="skills">
+          <span class="skill">[Linguagens de Programação]</span>
+          <span class="skill">C</span>
+          <span class="skill">Python</span>
+          <span class="skill">[Estruturas de dados]</span>
+          <span class="skill">NÃO SEI OQ COLOCAR</span>
+          <span class="skill">[Banco de dados]</span>
+          <span class="skill">PostgreSQL</span>
+          <span class="skill">MongoDB</span>
+          <span class="skill">[Hardware ou eletrônica]</span>
+          <span class="skill">ESP32</span>
+          <span class="skill">[Ferramenta de desenvolvimento]</span>
+          <span class="skill">VScode</span>
+        </div>
+        <p class="muted">
+          Substitua os itens acima apenas pelos conhecimentos que
+          você realmente possui e consegue explicar.
+        </p>
+      </div>
+    </section>
+
+    <section id="formacao">
+      <div class="container">
+        <div class="section-heading">
+          <div class="eyebrow">04 / Formação</div>
+          <h2>Minha trajetória acadêmica.</h2>
+        </div>
+        <article class="panel">
+          <div class="eyebrow">Em andamento</div>
+          <h3>Bacharelado em Engenharia de Computação</h3>
+          <p>Instituto Federal do Ceará (IFCE)</p>
+          <p class="muted">
+            6º semestre · Previsão de conclusão: dezembro / 2028
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section id="contato">
+      <div class="container">
+        <div class="contact">
+          <div class="eyebrow">05 / Contato</div>
+          <h2>Vamos conversar?</h2>
+          <p class="muted">
+            Estou em busca de oportunidades de estágio em tecnologia
+            e aberto a conexões profissionais.
+          </p>
+          <div class="actions">
+            <a class="btn btn-primary"
+               href="mailto:juliopereirabrasil1@gmail.com">
+              Enviar e-mail ↗
+            </a>
+            <a class="btn" href="SEU_LINKEDIN" target="_blank"
+               rel="noopener noreferrer">LinkedIn ↗</a>
+            <a class="btn" href="SEU_GITHUB" target="_blank"
+               rel="noopener noreferrer">GitHub ↗</a>
+          </div>
+          <p class="muted">
+            Troque os endereços de exemplo pelos seus links reais.
+            Remova os botões das plataformas que ainda não utiliza.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      © <span id="year"></span> Júlio Pereira Brasil · Portfólio acadêmico
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent =
+      new Date().getFullYear();
+  </script>
+</body>
+</html>
