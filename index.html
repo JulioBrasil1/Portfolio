@@ -84,6 +84,45 @@
 
     .hero { padding: 110px 0 90px; }
 
+    /* Configura o layout de duas colunas */
+    .hero-layout {
+      display: flex;
+      flex-direction: column; /* No celular, fica um embaixo do outro */
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+      padding-top: 4rem;
+      padding-bottom: 4rem;
+    }
+
+    .hero-text {
+      flex: 1;
+    }
+
+    /* Estilização e tamanho da sua foto */
+    .hero-image {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+    }
+
+    .hero-image img {
+      width: 100%;
+      max-width: 380px;        /* Controla o tamanho máximo da foto na tela */
+      height: 380px;           /* Mantém proporção quadrada */
+      object-fit: cover;       /* Corta a imagem sem distorcer caso não seja quadrada perfeita */
+      border-radius: 24px;     /* Bordas arredondadas seguindo o padrão dos seus cards */
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3); /* Sombra sutil para dar profundidade */
+    }
+
+    @media (min-width: 768px) {
+      .hero-layout {
+        flex-direction: row;  /* Alinha texto na esquerda e foto na direita */
+        text-align: left;
+        gap: 4rem;
+      }
+    }
+
     .eyebrow {
       color: var(--accent);
       font-size: .82rem;
@@ -194,6 +233,7 @@
       display: grid;
       grid-template-columns: 1.5fr 1fr;
       gap: 20px;
+      align-items: start;
     }
 
     .fact {
@@ -207,12 +247,24 @@
 
     .projects {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: minmax(0, 1fr);
       gap: 20px;
+      align-items: start;
     }
 
-    .project h3 { margin-bottom: 8px; }
-    .project p { color: var(--muted); }
+    .project {
+      min-width: 0;
+      padding: 28px;
+    }
+
+    .project h3 {
+      margin-top: 0;
+      margin-bottom: 8px;
+    }
+
+    .project p {
+      color: var(--muted);
+    }
 
     .tags {
       display: flex;
@@ -280,6 +332,218 @@
       .about-grid, .projects { grid-template-columns: 1fr; }
       h1 { letter-spacing: -1.5px; }
     }
+
+        /* Botão para expandir o projeto */
+    .project-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 8px;
+      padding: 10px 0;
+      border: none;
+      background: transparent;
+      color: var(--accent);
+      font: inherit;
+      font-size: .92rem;
+      font-weight: 650;
+      cursor: pointer;
+    }
+
+    .project-toggle:hover {
+      color: #b4d5ff;
+    }
+
+    .project-toggle:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 4px;
+      border-radius: 4px;
+    }
+
+    /* Conteúdo adicional */
+    .project-details {
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+      animation: project-open .25s ease;
+    }
+
+    .project-details[hidden] {
+      display: none;
+    }
+
+    .project-details h4 {
+      margin: 18px 0 8px;
+    }
+
+    .project-details p {
+      color: var(--muted);
+    }
+
+    /* Galeria de imagens */
+    .project-gallery {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .project-gallery img {
+      display: block;
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+    }
+
+    .project-video {
+      width: 100%;
+      margin-top: 12px;
+      border-radius: 10px;
+      background: #000;
+    }
+
+    @keyframes project-open {
+      from {
+        opacity: 0;
+        transform: translateY(-5px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .project-gallery {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .project-details {
+        animation: none;
+      }
+    }
+
+    /* Indica que as imagens podem ser ampliadas */
+    .project-gallery img {
+      cursor: zoom-in;
+      transition: transform .2s, opacity .2s;
+    }
+
+    .project-gallery img:hover {
+      opacity: .88;
+    }
+
+    /* Fundo da janela de visualização */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 20px 24px;
+      background: rgba(3, 7, 18, .94);
+      backdrop-filter: blur(8px);
+    }
+
+    .lightbox[hidden] {
+      display: none;
+    }
+
+    .lightbox-content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+    }
+
+    .lightbox img,
+    .lightbox video {
+      display: block;
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      border-radius: 8px;
+    }
+
+    .lightbox video {
+      width: min(100%, 1100px);
+      max-height: 85vh;
+      background: #000;
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 14px;
+      right: 22px;
+      width: 44px;
+      height: 44px;
+      border: 1px solid #526078;
+      border-radius: 50%;
+      background: #17243a;
+      color: white;
+      font-size: 28px;
+      cursor: pointer;
+    }
+
+    .lightbox-close:hover {
+      background: #26364f;
+    }
+
+    .lightbox-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 44px;
+      height: 54px;
+      border: 1px solid #526078;
+      border-radius: 10px;
+      background: rgba(23, 36, 58, .9);
+      color: white;
+      font-size: 26px;
+      cursor: pointer;
+    }
+
+    .lightbox-prev {
+      left: 16px;
+    }
+
+    .lightbox-next {
+      right: 16px;
+    }
+
+    .lightbox-counter {
+      position: absolute;
+      top: 22px;
+      left: 22px;
+      color: #f1f5f9;
+      font-size: .9rem;
+    }
+
+    .education-list {
+      display: flex;
+      flex-direction: column;
+      gap: clamp(1rem, 1vw, 1rem); /* Usa o padrão de espaçamento fluido do seu tema */
+    }
+
+    @media (max-width: 600px) {
+      .lightbox {
+        padding: 60px 10px 20px;
+      }
+
+      .lightbox-prev {
+        left: 8px;
+      }
+
+      .lightbox-next {
+        right: 8px;
+      }
+    }
+
   </style>
 </head>
 
@@ -299,32 +563,57 @@
 
   <main>
     <section class="hero container" id="inicio">
-      <div class="eyebrow">Portfólio acadêmico · IFCE</div>
-      <h1>Olá, eu sou <span>Júlio Pereira Brasil</h1>
-      <p class="intro">
-        Estudante do 6º semestre de Engenharia de Computação no
-        Instituto Federal do Ceará. Estou construindo minha trajetória
-        na tecnologia por meio da graduação, de projetos e do aprendizado contínuo.
-      </p>
-      <div class="actions">
-        <a class="btn btn-primary" href="#projetos">Conheça meus projetos ↘</a>
-        <a class="btn" href="#contato">Entre em contato</a>
+
+      <div class="container hero-layout">
+
+        <div class="hero-text">
+
+          <div class="eyebrow">Portfólio acadêmico · IFCE</div>
+          <h1>Olá, eu sou <span>Júlio Pereira Brasil</span></h1>
+          <p class="intro">
+            Estudante do 6º semestre de Engenharia de Computação no
+            Instituto Federal do Ceará. Estou construindo minha trajetória
+            na computação por meio da graduação, de projetos e do aprendizado contínuo.
+          </p>
+          <div class="actions">
+            <a class="btn btn-primary" href="#projetos">Conheça meus projetos ↘</a>
+            <a class="btn" href="#contato">Entre em contato</a>
+          </div>
+
+        </div>
+
+        <div class="hero-image">
+          <img src="imagens/eu.jpeg" alt="Foto de Júlio Pereira Brasil">
+        </div>
+
       </div>
+
     </section>
 
     <section id="sobre">
       <div class="container">
         <div class="section-heading">
-          <div class="eyebrow">01 / Sobre mim</div>
+          <div class="eyebrow">Sobre mim</div>
           <h2>Aprendendo, construindo e evoluindo</h2>
         </div>
         <div class="about-grid">
           <article class="panel">
             <p>
               Sou estudante de Engenharia de Computação no IFCE,
-              atualmente no 6º semestre. Durante a graduação, venho
+              atualmente no 6º semestre, focado no desenvolvimento de 
+              soluções que unem hardware e software. Durante a graduação, venho
               desenvolvendo minha base em computação e explorando
               maneiras de aplicar os conhecimentos acadêmicos na prática.
+            </p>
+            <p>
+              Minha trajetória acadêmica é marcada por uma sólida base
+              em sistemas embarcados, com experiência prática na
+              plataforma ESP32.
+              Além disso, possuo domínio em lógica
+              de programação, estruturas de dados e manipulação de bancos de dados.
+            </p>
+            <p>
+              Atualmente, aplico esses conhecimentos no desenvolvimento de diversos trabalhos da faculdade.
             </p>
             <p>
               Busco uma oportunidade de estágio em tecnologia na qual
@@ -349,53 +638,310 @@
         </div>
       </div>
     </section>
+    
+    <div
+      class="lightbox"
+      id="lightbox"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Visualizador de mídias"
+      hidden
+    >
+      <button
+        class="lightbox-close"
+        id="lightbox-close"
+        type="button"
+        aria-label="Fechar visualização"
+      >×</button>
+
+      <span
+        class="lightbox-counter"
+        id="lightbox-counter"
+        aria-live="polite"
+      ></span>
+
+      <button
+        class="lightbox-nav lightbox-prev"
+        id="lightbox-prev"
+        type="button"
+        aria-label="Mídia anterior"
+      >‹</button>
+
+      <div class="lightbox-content" id="lightbox-content"></div>
+
+      <button
+        class="lightbox-nav lightbox-next"
+        id="lightbox-next"
+        type="button"
+        aria-label="Próxima mídia"
+      >›</button>
+    </div>
 
     <section id="projetos">
       <div class="container">
         <div class="section-heading">
-          <div class="eyebrow">02 / Projetos</div>
-          <h2>Trabalhos e experimentos</h2>
+          <div class="eyebrow">Projetos</div>
+          <h2>Trabalhos realizados</h2>
           <p>
-            Projetos acadêmicos e pessoais que representam minha
+            Atividades acadêmicas e pessoais que representam minha
             aprendizagem e minha evolução na computação.
           </p>
         </div>
 
         <div class="projects">
           <article class="project">
-            <h3>Sistema de Gestão Energética para Casas de Veraneio</h3>
+            <h3>TCC - Sistema de Gestão Energética para Casas de Veraneio</h3>
             <p>
-              Se trata de um produto embarcado que é implantado na caixa geral de uma casa para mostrar medições elétricas,
+              Meu trabalho de TCC. Se trata de um produto embarcado que é implantado na caixa geral de uma casa para mostrar medições elétricas,
               criar estadias como em um airbnb e mostrar as informações de forma direta e prática para o dono.
             </p>
             <div class="tags">
               <span class="tag">ESP32</span>
-              <span class="tag">HTML</span>
-              <span class="tag">C/Python</span>
+              <span class="tag">C++</span>
               <span class="tag">MQTT</span>
               <span class="tag">Embarcado</span>
             </div>
-            <!-- <a class="project-link" href="#contato">
-              [Adicionar link do projeto, se disponível] →
-            </a> -->
+
+            <button
+              class="project-toggle"
+              type="button"
+              aria-expanded="false"
+              aria-controls="detalhes-casa"
+            >
+              Ver detalhes do projeto
+              <span aria-hidden="true">↓</span>
+            </button>
+
+            <div class="project-details" id="detalhes-casa" hidden>
+              <h4>Sobre o projeto</h4>
+              <p>
+                Esse foi o trabalho de TCC que eu meus colegas fizemos (nossa faculdade permite fazer o TCC com até 3 pessoas). Se trata
+                de um sistema embarcado com uma ESP32, que o locador coloca no registro geral da casa, e, após isso, o dispositivo consegue
+                fazer leituras elétricas de custo energético por hora, se certos cômodos estão com luz outro aparelho ligado, criar estadias
+                para alugar sua casa (por isso o foco para casas de veraneio), criar planos energéticos para o locatário escolher 
+                (se quer só energia, ou energia + ar-condicionado, por exemplo), dentre outros. O foco é tudo ser visível num site que o dono
+                teria acesso, com dashboards interativos e diretos, mostrando de forma facilitada tudo que ele precisa saber energeticamente
+                da suas casa e suas estadias.
+              </p>
+
+              <h4>Minha participação</h4>
+              <p>
+                Minha participação nesse TCC foi o embarcado em si e o documento para ser entregue. Em relação ao embarcado, trabalhei no código
+                usando C++ para trabalhar com o ESP32, criando a lógica por trás do o que ele fará e como enviará para o Broker MQTT
+
+                Minha participação no TCC foi voltada ao desenvolvimento da lógica de programação em C++, utilizando o ambiente 
+                Arduino IDE para programar a ESP32, responsável por realizar as leituras elétricas no registro geral da residência.
+                Fiquei encarregado de desenvolver o código para processar essas leituras e organizar o envio dos dados ao broker MQTT,
+                permitindo que as informações fossem transmitidas pela rede e posteriormente utilizadas na apresentação dos dashboards do site.
+                Também, mas não menos importante, fiquei encarregado com a documentação para o TCC, o que exigiu conhecimentos de ABNT, metodologia
+                científica e formatação de documentos. Como se trata de um produto feito para TCC e tem possibildade futura, não temos nada
+                para acesso.
+              </p>
+
+              <h4>Imagens do projeto</h4>
+              <div class="project-gallery">
+                <img
+                  src="imagens/logica_esp32.jpeg"
+                  alt="Lógica para ligar e desligar no código"
+                  loading="lazy"
+                >
+                <img
+                  src="imagens/topicos_esp32.jpeg"
+                  alt="Tópicos MQTT no código"
+                  loading="lazy"
+                >
+                <img
+                  src="imagens/site_esp32.jpeg"
+                  alt="Print do site"
+                  loading="lazy"
+                >
+                <img
+                  src="imagens/mqtt_esp32.jpeg"
+                  alt="Menu da Conexão MQTT"
+                  loading="lazy"
+                >
+              </div>
+
+              <!-- <h4>Demonstração em vídeo</h4>
+              <video class="project-video" controls preload="metadata">
+                <source
+                  src="videos/energia-demonstracao.mp4"
+                  type="video/mp4"
+                >
+                Seu navegador não consegue reproduzir este vídeo.
+              </video> -->
+
+              <!-- <p>
+                <a class="project-link"
+                  href="https://linkficticio.com"
+                  target="_blank"
+                  rel="noopener noreferrer">
+                  Ver código no XXXXXXXX ↗
+                </a>
+              </p> -->
+
           </article>
 
           <article class="project">
-            <h3>Detecção de Violação de Malas</h3>
+            <h3>Dashboards sobre Microdados Enem</h3>
             <p>
-              Cooperei com o TCC de um colega para a criação de um produto embarcado que ao colocar em uma mala/mochila, se manteria ativo
-              vigiando se ocorrerá uma violação e, caso sim, enviará um aviso que a mala foi violada e o horário.
+              Participei de um trabalho de Probabilidade e Estatística que exigiu a criação de dashboards que mostrassem de forma simples e 
+              direta, um dataset de nosssa escolha, filtrando os dados corretamente com python e depois mostrando-os com dashboards em Power BI.
             </p>
             <div class="tags">
-              <span class="tag">ESP32</span>
-              <span class="tag">C/Python</span>
-              <span class="tag">Bluetooth</span>
-              <span class="tag">Embarcado</span>
-              <span class="tag">IoT</span>
+              <span class="tag">Power BI</span>
+              <span class="tag">Python</span>
+              <span class="tag">Google Colab</span>
             </div>
-            <!-- <a class="project-link" href="#contato">
-              [Adicionar link do projeto, se disponível] →
-            </a> -->
+
+            <button
+              class="project-toggle"
+              type="button"
+              aria-expanded="false"
+              aria-controls="detalhes-mala"
+            >
+              Ver detalhes do projeto
+              <span aria-hidden="true">↓</span>
+            </button>
+
+            <div class="project-details" id="detalhes-mala" hidden>
+              <h4>Sobre o projeto</h4>
+              <p>
+                Esse projeto foi mais simples, mas necessário de conhecimentos de estatística, como dados funcionam e devem ser manipulados
+                para evitar ambiguidades ou falsas conclusões. Eu e meu colega escolhemos o dataset Microdados Enem 2020 - 2023 para mostrar
+                os impactos da pandemia nos resultados do Enem. Para isso, tivemos que filtrar os dados no google Colab usando Python e depois
+                passar para o Power BI e estilizar para ser bom visivelmente.
+              </p>
+
+              <h4>Minha participação</h4>
+              <p>
+                Neste projeto minha participação foi quase totalmente no Power BI, porém precisei verificar o código em Python para validar certos
+                requisitos do trabalho, além de que também cooperei com a finalização e refinamento do código. No Power BI, precisei criar algumas 
+                colunas novas para manipular algumas variáveis, criar tabelas novas e relacionamentos, modelar dados e saber dispor isso em cartões
+                e gráficos corretos/condizentes com os dados que quero mostrar. 
+              </p>
+
+              <h4>Imagens do projeto</h4>
+              <div class="project-gallery">
+                <img
+                  src="imagens/print_powerbi.JPG"
+                  alt="Print 1 dos Dashboards"
+                  loading="lazy"
+                >
+                <img
+                  src="imagens/print2_powerbi.JPG"
+                  alt="Print 2 dos Dashboards"
+                  loading="lazy"
+                >
+                <img
+                  src="imagens/print3_powerbi.JPG"
+                  alt="Print 3 dos Dashboards"
+                  loading="lazy"
+                >
+                <img
+                  src="imagens/print_colab.JPG"
+                  alt="Print do código no Google Colab"
+                  loading="lazy"
+                >
+              </div>
+
+              <p>
+                <a class="project-link"
+                  href="https://colab.research.google.com/drive/12MbvsHe5LhXVWSy8JFbzOtUeva-bFsTh"
+                  target="_blank"
+                  rel="noopener noreferrer">
+                  Ver código no Google Colab ↗
+                </a>
+                <a class="project-link"
+                  href="https://app.powerbi.com/groups/me/reports/f4986437-6918-4bd3-b575-8f9ddca1ca66/e97515150092929838a9?experience=power-bi"
+                  target="_blank"
+                  rel="noopener noreferrer">
+                  Ver dashboards no Power BI ↗
+                </a>
+              </p>
+
+          </article>
+
+          <article class="project">
+            <h3>Sistema de Empréstimo de Equipamentos de Laboratório</h3>
+            <p>
+              Fiz um trabalho em dupla com um colego onde criamos um site que simula um sistema de empréstimo 
+              de equipamentos de laboratório, com criação de equipamentos e empréstimos que seriam salvos
+              num banco de dados.
+            </p>
+            <div class="tags">
+              <span class="tag">TypeScript</span>
+              <span class="tag">JavaScript</span>
+              <span class="tag">Supabase</span>
+              <span class="tag">PostgreSQL</span>
+            </div>
+
+            <button
+              class="project-toggle"
+              type="button"
+              aria-expanded="false"
+              aria-controls="detalhes-site"
+            >
+              Ver detalhes do projeto
+              <span aria-hidden="true">↓</span>
+            </button>
+
+            <div class="project-details" id="detalhes-site" hidden>
+              <h4>Sobre o projeto</h4>
+              <p>
+                O trabalho se tratava de uma prova de conhecimentos sobre uso de bancos de dados e saber criar relacionamentos,
+                fazendo um site que demonstrasse isso. Eu e meu colega então decidimos o tema de Sistema de Empréstimo de 
+                Equipamentos de Laboratório. Inicialmente criamos em papel a ideia do design das tabelas, suas variáveis e seus relacionamentos,
+                que podem ser visto na imagem 1. Após isso, começamos a fazer o backend e frontend, onde decidimos fazer em React. A base é
+                toda em typescript e javascript. Por fim, refinamos o códigos, criamos um banco online em Supabase, subimos os arquivos para
+                o github e conseguimos fazer o site abrir localmente e enviar tudo e receber do banco de dados online. 
+              </p>
+
+              <h4>Minha participação</h4>
+              <p>
+                Dentro desse trabalho, fique encarregado do tratamento total do banco de dados e os ajustes como enviar para o PostgreSQL 
+                (que depois evoluiu para o banco online Supabase) toda vez que
+                uma variável era salva/criada ou um empréstimo era feito; refinamentos no código também. Melhorei alguns visuais como botões,
+                criei algumas interfaces novas, tudo que fosse necessário para a conversa site-banco, além de ajustar trechos necessários, porém,
+                mais focado em relação ao banco, enquanto meu colega ficou com a parte inicial do site, como fazer a estrutura base e boa parte
+                dos visuais, que depois usei/adaptei. Com isso, fiz muito uso de banco de dados (PostgreSQL e Supabase) e uso de linguagens
+                (Typescript e Javascript).
+              </p>
+
+              <h4>Imagens do projeto</h4>
+              <div class="project-gallery">
+                <img
+                  src="imagens/design_supabase.jpg"
+                  alt="Imagem do design do banco de dados no Supabase"
+                  loading="lazy"
+                >
+                <img
+                  src="imagens/print_emprestimo_vscode.JPG"
+                  alt="Print de um recorte do código"
+                  loading="lazy"
+                >
+                <img
+                  src="imagens/print_tela_site_emprestimo.JPG"
+                  alt="Print 1 do site"
+                  loading="lazy"
+                >
+                <img
+                  src="imagens/print2_tela_site_emprestimo.JPG"
+                  alt="Print 2 do site"
+                  loading="lazy"
+                >
+              </div>
+
+              <p>
+                <a class="project-link"
+                  href="https://github.com/JoaopedroQR/Sistema_emprestimo_de_equipamentos_do_laboratorio/tree/main"
+                  target="_blank"
+                  rel="noopener noreferrer">
+                  Ver código no GitHub ↗
+                </a>
+              </p>
+
+            </div>
           </article>
         </div>
       </div>
@@ -404,54 +950,85 @@
     <section id="conhecimentos">
       <div class="container">
         <div class="section-heading">
-          <div class="eyebrow">03 / Conhecimentos</div>
-          <h2>Minha base técnica</h2>
+          <div class="eyebrow">Conhecimentos</div>
+          <h2>Base técnica</h2>
           <p>
-            Conhecimentos desenvolvidos na graduação e em atividades
-            práticas. A lista será atualizada conforme novos projetos
-            forem concluídos.
+            Conhecimentos desenvolvidos na graduação e em atividades práticas. 
           </p>
         </div>
+        <article class="panel" style="margin-bottom: min(var(--gap, 2rem), 4%);">
+          <p>
+            Tenho sólida base em sistemas embarcados com foco na plataforma ESP32,
+            competência desenvolvida em disciplinas como Arquitetura de Computadores,
+            Microcontroladores e Microprocessadores e Sistemas Embarcados.  
+          </p>
+          <p>
+            Minha proficiência em linguagens de programação e estruturas de dados
+            foi construída de forma gradual através de Introdução à Programação, Programação Orientada a Objetos,
+            Estrutura de Dados e Pesquisa e Ordenação, sendo esta última essencial também para a análise de algoritmos.
+          </p>
+          <p>
+            Além disso, adquiri experiência prática em bancos de dados por meio de projetos
+            integradores e trabalhos acadêmicos que demandaram o uso conjunto dessas tecnologias.
+          </p>
+          <p class="muted" style="margin-top: 1rem; font-size: 0.9em;">
+            * A lista será atualizada conforme novos projetos forem concluídos.
+          </p>
+        </article>
         <div class="skills">
           <!-- <span class="skill">[Linguagens de Programação]</span> -->
           <span class="skill">C</span>
+          <span class="skill">C++</span>
           <span class="skill">Python</span>
+          <span class="skill">JavaScript</span>
+          <span class="skill">TypeScript</span>
           <!-- <span class="skill">[Estruturas de dados]</span> -->
           <!-- <span class="skill">[Banco de dados]</span> -->
           <span class="skill">PostgreSQL</span>
           <span class="skill">MongoDB</span>
+          <span class="skill">Supabase</span>
           <!-- <span class="skill">[Hardware ou eletrônica]</span> -->
+          <span class="skill">Embarcados</span>
           <span class="skill">ESP32</span>
           <!-- <span class="skill">[Ferramenta de desenvolvimento]</span> -->
+           <span class="skill">Google Colab</span>
+           <span class="skill">Power BI</span>
+           <span class="skill">GitHub</span>
         </div>
-        <!-- <p class="muted">
-          Substitua os itens acima apenas pelos conhecimentos que
-          você realmente possui e consegue explicar.
-        </p> -->
       </div>
     </section>
 
     <section id="formacao">
       <div class="container">
         <div class="section-heading">
-          <div class="eyebrow">04 / Formação</div>
-          <h2>Minha trajetória acadêmica</h2>
+          <div class="eyebrow">Formação</div>
+          <h2>Trajetória acadêmica</h2>
         </div>
-        <article class="panel">
-          <div class="eyebrow">Em andamento</div>
-          <h3>Bacharelado em Engenharia de Computação</h3>
-          <p>Instituto Federal do Ceará (IFCE)</p>
-          <p class="muted">
-            6º semestre · Previsão de conclusão: dezembro / 2028
-          </p>
-        </article>
+        <div class="education-list">
+          <article class="panel">
+            <div class="eyebrow">Concluido</div>
+            <h3>Ensino Médio</h3>
+            <p>Colégio Militar de Fortaleza (CMF)</p>
+            <p class="muted">
+              Concluído em 2020
+            </p>
+          </article>
+          <article class="panel">
+            <div class="eyebrow">Em andamento</div>
+            <h3>Bacharelado em Engenharia de Computação</h3>
+            <p>Instituto Federal do Ceará (IFCE)</p>
+            <p class="muted">
+              6º semestre · Previsão de conclusão: dezembro / 2028
+            </p>
+          </article>
+        </div>
       </div>
     </section>
 
     <section id="contato">
       <div class="container">
         <div class="contact">
-          <div class="eyebrow">05 / Contato</div>
+          <div class="eyebrow">Contato</div>
           <h2>Vamos conversar?</h2>
           <p class="muted">
             Estou em busca de oportunidades de estágio em tecnologia
@@ -532,6 +1109,167 @@
   <script>
     document.getElementById("year").textContent =
       new Date().getFullYear();
+    document.querySelectorAll(".project-toggle").forEach((button) => {
+      button.addEventListener("click", () => {
+        const detailsId = button.getAttribute("aria-controls");
+        const details = document.getElementById(detailsId);
+
+        const isExpanded =
+          button.getAttribute("aria-expanded") === "true";
+
+        details.hidden = isExpanded;
+        button.setAttribute("aria-expanded", String(!isExpanded));
+
+        button.innerHTML = isExpanded
+          ? 'Ver detalhes do projeto <span aria-hidden="true">↓</span>'
+          : 'Mostrar menos <span aria-hidden="true">↑</span>';
+      });
+    });
+    const lightbox = document.getElementById("lightbox");
+    const lightboxContent = document.getElementById("lightbox-content");
+    const lightboxCounter = document.getElementById("lightbox-counter");
+
+    const closeButton = document.getElementById("lightbox-close");
+    const prevButton = document.getElementById("lightbox-prev");
+    const nextButton = document.getElementById("lightbox-next");
+
+    let mediaItems = [];
+    let currentIndex = 0;
+    let previousFocus = null;
+
+    function collectMedia() {
+      // Considera somente mídias dos detalhes expandidos.
+      // Se quiser abrir imagens antes de expandir o cartão,
+      // remova a condição details.hidden.
+      return [...document.querySelectorAll(".project-details")]
+        .filter(details => !details.hidden)
+        .flatMap(details =>
+          [...details.querySelectorAll(".project-gallery img, video")]
+        );
+    }
+
+    function openLightbox(media) {
+      mediaItems = collectMedia();
+      currentIndex = mediaItems.indexOf(media);
+
+      if (currentIndex < 0) {
+        mediaItems = [media];
+        currentIndex = 0;
+      }
+
+      previousFocus = media;
+      lightbox.hidden = false;
+      document.body.style.overflow = "hidden";
+
+      showMedia(currentIndex);
+      closeButton.focus();
+    }
+
+    function showMedia(index) {
+      if (!mediaItems.length) return;
+
+      currentIndex =
+        (index + mediaItems.length) % mediaItems.length;
+
+      const original = mediaItems[currentIndex];
+      lightboxContent.replaceChildren();
+
+      if (original.tagName === "IMG") {
+        const image = document.createElement("img");
+
+        image.src = original.currentSrc || original.src;
+        image.alt = original.alt || "Imagem do projeto";
+
+        lightboxContent.appendChild(image);
+      } else {
+        const video = document.createElement("video");
+
+        // Reutiliza a fonte original do vídeo.
+        video.src = original.currentSrc || original.src;
+        video.controls = true;
+        video.autoplay = true;
+        video.playsInline = true;
+        video.preload = "metadata";
+
+        lightboxContent.appendChild(video);
+
+        video.play().catch(() => {
+          // Se a reprodução automática for bloqueada,
+          // a pessoa poderá iniciar pelo botão de play.
+        });
+      }
+
+      lightboxCounter.textContent =
+        `${currentIndex + 1} / ${mediaItems.length}`;
+
+      const multiple = mediaItems.length > 1;
+      prevButton.hidden = !multiple;
+      nextButton.hidden = !multiple;
+    }
+
+    function closeLightbox() {
+      if (lightbox.hidden) return;
+
+      const video = lightboxContent.querySelector("video");
+
+      if (video) video.pause();
+
+      lightboxContent.replaceChildren();
+      lightbox.hidden = true;
+      document.body.style.overflow = "";
+
+      if (previousFocus?.isConnected) {
+        previousFocus.focus();
+      }
+    }
+
+    document.addEventListener("click", event => {
+      const media = event.target.closest(
+        ".project-gallery img, .project-details video"
+      );
+
+      if (media && !media.closest(".lightbox")) {
+        if (media.tagName === "VIDEO") {
+          // Evita abrir a janela quando a pessoa clicar
+          // nos controles nativos de um vídeo.
+          if (event.target !== media) return;
+        }
+
+        const details = media.closest(".project-details");
+
+        if (details && !details.hidden) {
+          openLightbox(media);
+        }
+      }
+    });
+
+    closeButton.addEventListener("click", closeLightbox);
+
+    prevButton.addEventListener("click", () => {
+      showMedia(currentIndex - 1);
+    });
+
+    nextButton.addEventListener("click", () => {
+      showMedia(currentIndex + 1);
+    });
+
+    lightbox.addEventListener("click", event => {
+      if (event.target === lightbox) {
+        closeLightbox();
+      }
+    });
+
+    document.addEventListener("keydown", event => {
+      if (lightbox.hidden) return;
+
+      if (event.key === "Escape") {
+        closeLightbox();
+      } else if (event.key === "ArrowRight") {
+        showMedia(currentIndex + 1);
+      } else if (event.key === "ArrowLeft") {
+        showMedia(currentIndex - 1);
+      }
+    });
   </script>
 </body>
 </html>
